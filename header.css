@@ -1,0 +1,51 @@
+/* Единый хеддер для index и calculator */
+/* Отступ body на обеих страницах 24px — хеддер тянется на всю ширину */
+.site-header {
+    background: #0d1117;
+    border-bottom: 1px solid #2b364b;
+    padding: 14px 24px;
+    margin: -24px -24px 24px -24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+}
+.site-header-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.site-logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #a8c0ff;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+.site-logo:hover {
+    color: #d6e5ff;
+}
+.site-nav {
+    display: flex;
+    gap: 8px;
+}
+.site-nav .nav-link {
+    padding: 8px 18px;
+    border-radius: 24px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s, color 0.2s;
+}
+.site-nav .nav-link:hover {
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.06);
+}
+.site-nav .nav-link.active {
+    color: #ffcc00;
+    background: rgba(255, 204, 0, 0.12);
+}

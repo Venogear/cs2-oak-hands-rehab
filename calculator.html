@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Experience Calculator</title>
+    <link rel="stylesheet" href="header.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e6e6e6;
+            line-height: 1.6;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(22, 33, 62, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(77, 204, 189, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(77, 204, 189, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4dccbd, transparent);
+        }
+
+        .header-section {
+            margin-bottom: 25px;
+        }
+
+        .xp-input-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .xp-input-wrapper {
+            flex: 1.2;
+            position: relative;
+        }
+
+        .xp-input-wrapper input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 2px solid rgba(77, 204, 189, 0.4);
+            background: rgba(26, 26, 46, 0.8);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            height: 54px;
+            box-sizing: border-box;
+        }
+
+        .xp-input-wrapper input:focus {
+            border-color: #ffcc00;
+            background: rgba(26, 26, 46, 0.9);
+            box-shadow: 
+                0 0 0 3px rgba(255, 204, 0, 0.1),
+                0 8px 20px rgba(255, 204, 0, 0.15);
+        }
+
+        .xp-input-wrapper input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .xp-needed-display {
+            flex: 1;
+            text-align: center;
+            padding: 12px 10px;
+            background: rgba(15, 52, 96, 0.4);
+            border-radius: 14px;
+            border: 1px solid rgba(77, 204, 189, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 54px;
+            white-space: nowrap;
+        }
+
+        .xp-needed-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4dccbd, #ffcc00);
+        }
+
+        .xp-needed-text {
+            color: #e6e6e6;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .xp-needed-value {
+            color: #ffcc00;
+            font-weight: 700;
+            font-size: 16px;
+            text-shadow: 0 2px 4px rgba(255, 204, 0, 0.3);
+        }
+        
+        .bonus-selector {
+            margin-bottom: 20px;
+        }
+        
+        .bonus-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #4dccbd;
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        .bonus-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .bonus-btn {
+            flex: 1;
+            padding: 12px 10px;
+            background: rgba(15, 52, 96, 0.4);
+            border: 2px solid rgba(77, 204, 189, 0.3);
+            border-radius: 12px;
+            color: #e6e6e6;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bonus-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .bonus-btn:hover {
+            background: rgba(77, 204, 189, 0.15);
+            border-color: rgba(77, 204, 189, 0.6);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .bonus-btn:hover::before {
+            left: 100%;
+        }
+        
+        .bonus-btn.active {
+            background: linear-gradient(135deg, #4dccbd, #3bb4a5);
+            color: #0f172a;
+            font-weight: 600;
+            border-color: #ffcc00;
+            box-shadow: 
+                0 4px 16px rgba(255, 204, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        .results {
+            display: none;
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        .result-item {
+            background: linear-gradient(135deg, rgba(15, 52, 96, 0.6), rgba(26, 58, 106, 0.4));
+            border-radius: 14px;
+            padding: 13px 20px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(77, 204, 189, 0.2);
+            border-left: 4px solid #4dccbd;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            cursor: help;
+            min-height: 65px;
+        }
+        
+        .result-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(77, 204, 189, 0.4), transparent);
+        }
+        
+        .result-title {
+            color: #4dccbd;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-title::before {
+            content: "▶";
+            margin-right: 10px;
+            color: #ffcc00;
+            font-size: 12px;
+        }
+        
+        .formula-tooltip {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: rgba(22, 33, 62, 0.95);
+            border: 1px solid #4dccbd;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #e2e8f0;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .result-item:hover .formula-tooltip {
+            opacity: 1;
+            visibility: visible;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.95), rgba(22, 33, 62, 0.95)) padding-box,
+                        linear-gradient(45deg, #4dccbd, #ffcc00, #4dccbd) border-box;
+            animation: borderGlow 2s linear infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes borderGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .result-value {
+            color: #ffcc00;
+            font-weight: 700;
+            font-size: 16px;
+            text-shadow: 0 1px 2px rgba(255, 204, 0, 0.2);
+        }
+        
+        .xp-will-give {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-left: 6px;
+            font-weight: 500;
+        }
+        
+        .xp-with-quest {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-left: 0px;
+            font-weight: 500;
+        }
+        
+        .warning {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .warning::before {
+            content: "⚠";
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .settings-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: rgba(15, 52, 96, 0.3);
+            border-radius: 16px;
+            border: 1px solid rgba(77, 204, 189, 0.1);
+        }
+        
+        .quest-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .safe-mode {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .safe-mode input[type="checkbox"],
+        .quest-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4dccbd;
+            cursor: pointer;
+        }
+        
+        .safe-mode label,
+        .quest-checkbox label {
+            color: #e6e6e6;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .quest-xp {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 500;
+            margin-left: auto;
+            padding-right: 20px;
+        }
+        
+        .safe-mode-info {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        
+        .quest-warning {
+            color: #ffcc00;
+            font-size: 10px;
+            font-weight: 500;
+            font-style: italic;
+        }
+        
+        .info-block {
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(77, 204, 189, 0.08), rgba(255, 204, 0, 0.03));
+            border-radius: 16px;
+            border: 1px solid rgba(77, 204, 189, 0.15);
+            text-align: center;
+            position: relative;
+        }
+        
+        .info-text {
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        .highlight {
+            color: #ffcc00;
+            font-weight: 600;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 12px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(77, 204, 189, 0.1);
+            font-weight: 500;
+        }
+        
+        .copyright strong {
+            color: #4dccbd;
+            font-weight: 600;
+        }
+        
+        .danger {
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+        
+        /* Убираем стрелки у input number */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        /* Плавные переходы для всех интерактивных элементов */
+        * {
+            transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 480px) {
+            .xp-input-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .xp-needed-display {
+                width: 100%;
+            }
+            
+            .bonus-buttons {
+                flex-direction: column;
+            }
+            
+            .formula-tooltip {
+                display: none;
+            }
+            
+            .result-item {
+                padding: 12px 15px;
+            }
+            
+            .quest-xp {
+                display: none;
+            }
+            
+            .safe-mode-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-header-placeholder" data-current-page="calculator"></div>
+    <div class="container">
+        <div class="header-section">
+            <div class="xp-input-container">
+                <div class="xp-input-wrapper">
+                    <input type="number" id="currentXP" min="0" max="4990" placeholder="Твой текущий XP" class="current-xp-input">
+                </div>
+                <div class="xp-needed-display" id="xpNeededContainer" style="display: none;">
+                    <div class="xp-needed-text">Нужно еще <span class="xp-needed-value" id="xpNeeded">0</span> XP</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bonus-selector">
+            <div class="bonus-label">Бонусный множитель</div>
+            <div class="bonus-buttons">
+                <div class="bonus-btn active" data-value="4">4x бонус</div>
+                <div class="bonus-btn" data-value="2">2x бонус</div>
+                <div class="bonus-btn" data-value="1">Без бонуса</div>
+            </div>
+        </div>
+        
+        <div class="results" id="results">
+            <div class="result-item">
+                <div class="result-title">Соревновательный / Premier</div>
+                <div>Выиграть раундов: <span class="result-value" id="compRounds">0</span><span class="xp-will-give" id="compWillGive"></span><span class="xp-with-quest" id="compWithQuest"></span></div>
+                <div class="formula-tooltip">30 XP × <span id="compMultiplierTooltip">4</span> = <span id="compPerRoundTooltip">120</span> XP/раунд</div>
+                <div class="warning" id="compWarning" style="display: none;">Минимальная игра (13 раундов) даст <span id="compMinXP">0</span> XP!</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-title">Напарники (Wingman)</div>
+                <div>Выиграть раундов: <span class="result-value" id="wmRounds">0</span><span class="xp-will-give" id="wmWillGive"></span></div>
+                <div class="formula-tooltip">15 XP × <span id="wmMultiplierTooltip">4</span> = <span id="wmPerRoundTooltip">60</span> XP/раунд</div>
+                <div class="warning" id="wmWarning" style="display: none;">Минимальная игра (9 раундов) даст <span id="wmMinXP">0</span> XP!</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-title">Гонка вооружений</div>
+                <div>Набрать очков: <span class="result-value" id="arPoints">0</span><span class="xp-will-give" id="arWillGive"></span></div>
+                <div class="formula-tooltip">1 XP × <span id="arMultiplierTooltip">4</span> = <span id="arPerPointTooltip">4</span> XP/очко</div>
+                <div class="warning" id="arWarning" style="display: none;">Минимальное количество очков даст больше нужного XP!</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-title">Обычный (Casual)</div>
+                <div>Набрать очков: <span class="result-value" id="casualPoints">0</span><span class="xp-will-give" id="casualWillGive"></span></div>
+                <div class="formula-tooltip">4 XP × <span id="casualMultiplierTooltip">4</span> = <span id="casualPerPointTooltip">16</span> XP/очко</div>
+                <div class="warning" id="casualWarning" style="display: none;">Минимальное количество очков даст больше нужного XP!</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-title">Бой на смерть (DM)</div>
+                <div>Набрать очков: <span class="result-value" id="dmPoints">0</span><span class="xp-will-give" id="dmWillGive"></span><span class="xp-with-quest" id="dmWithQuest"></span></div>
+                <div class="formula-tooltip">0.2 XP × <span id="dmMultiplierTooltip">4</span> = <span id="dmPerPointTooltip">0.8</span> XP/очко</div>
+                <div class="warning" id="dmWarning" style="display: none;">Минимальное количество очков даст больше нужного XP!</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="settings-block">
+                <div class="quest-checkbox">
+                    <input type="checkbox" id="questModeComp">
+                    <label for="questModeComp">Задание Competitive / Premier</label>
+                    <div class="quest-xp">+1050 XP</div>
+                </div>
+            </div>
+            
+            <div class="settings-block">
+                <div class="quest-checkbox">
+                    <input type="checkbox" id="questModeDM">
+                    <label for="questModeDM">Задание Deathmatch</label>
+                    <div class="quest-xp">+800 XP</div>
+                </div>
+            </div>
+            
+            <div class="settings-block">
+                <div class="safe-mode">
+                    <input type="checkbox" id="safeMode" checked>
+                    <label for="safeMode">Безопасный режим</label>
+                </div>
+                <div class="safe-mode-info">Предотвращает повышение уровня</div>
+            </div>
+            
+            <div class="info-block">
+                <div class="info-text">
+                    💡 <span class="highlight">Стратегия:</span> Остановитесь на 
+                    <span class="highlight">4990-4999 XP</span>, чтобы на следующей неделе 
+                    поднять уровень за минимум усилий
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <strong>CS2 Experience Calculator</strong> • Разработано Venogear • v2.2
+            </div>
+        </div>
+    </div>
+
+    <script src="load-header.js"></script>
+    <script>
+        // Обработка кнопок бонусного множителя
+        document.querySelectorAll('.bonus-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.bonus-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                calculateXP();
+            });
+        });
+
+        // Обработка изменений в поле ввода
+        document.getElementById('currentXP').addEventListener('input', function() {
+            calculateXP();
+        });
+
+        // Обработка безопасного режима
+        document.getElementById('safeMode').addEventListener('change', calculateXP);
+
+        // Взаимоисключающие чекбоксы для заданий
+        document.getElementById('questModeComp').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('questModeDM').checked = false;
+            }
+            calculateXP();
+        });
+
+        document.getElementById('questModeDM').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('questModeComp').checked = false;
+            }
+            calculateXP();
+        });
+
+        function calculateXP() {
+            const currentXP = parseInt(document.getElementById('currentXP').value);
+            const bonusMultiplier = parseFloat(document.querySelector('.bonus-btn.active').dataset.value);
+            const safeMode = document.getElementById('safeMode').checked;
+            const questModeComp = document.getElementById('questModeComp').checked;
+            const questModeDM = document.getElementById('questModeDM').checked;
+            
+            if (isNaN(currentXP) || currentXP < 0 || currentXP > 4990) {
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('xpNeededContainer').style.display = 'none';
+                return;
+            }
+            
+            const targetXP = 4990;
+            const baseXPNeeded = targetXP - currentXP;
+            
+            if (baseXPNeeded <= 0) {
+                document.getElementById('results').style.display = 'none';
+                document.getElementById('xpNeededContainer').style.display = 'block';
+                document.getElementById('xpNeeded').textContent = '0';
+                return;
+            }
+            
+            // Показываем блок с нужным опытом
+            document.getElementById('xpNeeded').textContent = Math.max(0, baseXPNeeded);
+            document.getElementById('xpNeededContainer').style.display = 'block';
+            
+            // ИСПРАВЛЕННАЯ ЛОГИКА: задания уменьшают необходимый опыт для соответствующих режимов
+            const compXPNeeded = questModeComp ? Math.max(0, baseXPNeeded - 1050) : baseXPNeeded;
+            const dmXPNeeded = questModeDM ? Math.max(0, baseXPNeeded - 800) : baseXPNeeded;
+            
+            // Учитываем бонусный множитель для каждого режима
+            const compActualXPNeeded = Math.ceil(compXPNeeded / bonusMultiplier);
+            const wmActualXPNeeded = Math.ceil(baseXPNeeded / bonusMultiplier);
+            const arActualXPNeeded = Math.ceil(baseXPNeeded / bonusMultiplier);
+            const casualActualXPNeeded = Math.ceil(baseXPNeeded / bonusMultiplier);
+            const dmActualXPNeeded = Math.ceil(dmXPNeeded / bonusMultiplier);
+            
+            // Коэффициенты конвертации для каждого режима
+            const conversionRates = {
+                competitive: 30,
+                wingman: 15,
+                armsrace: 1,
+                casual: 4,
+                deathmatch: 0.2
+            };
+            
+            // Минимальные значения для режимов с фиксированной длительностью
+            const minValues = {
+                competitive: 13,
+                wingman: 9
+            };
+            
+            // Обновляем множители в подсказках
+            document.getElementById('compMultiplierTooltip').textContent = bonusMultiplier;
+            document.getElementById('wmMultiplierTooltip').textContent = bonusMultiplier;
+            document.getElementById('arMultiplierTooltip').textContent = bonusMultiplier;
+            document.getElementById('casualMultiplierTooltip').textContent = bonusMultiplier;
+            document.getElementById('dmMultiplierTooltip').textContent = bonusMultiplier;
+            
+            document.getElementById('compPerRoundTooltip').textContent = 30 * bonusMultiplier;
+            document.getElementById('wmPerRoundTooltip').textContent = 15 * bonusMultiplier;
+            document.getElementById('arPerPointTooltip').textContent = 1 * bonusMultiplier;
+            document.getElementById('casualPerPointTooltip').textContent = 4 * bonusMultiplier;
+            document.getElementById('dmPerPointTooltip').textContent = (0.2 * bonusMultiplier).toFixed(1);
+            
+            // Рассчитываем значения для каждого режима
+            let compRounds = Math.ceil(compActualXPNeeded / conversionRates.competitive);
+            let wmRounds = Math.ceil(wmActualXPNeeded / conversionRates.wingman);
+            let arPoints = Math.ceil(arActualXPNeeded / conversionRates.armsrace);
+            let casualPoints = Math.ceil(casualActualXPNeeded / conversionRates.casual);
+            let dmPoints = Math.ceil(dmActualXPNeeded / conversionRates.deathmatch);
+            
+            // Рассчитываем сколько опыта выдаст каждый вариант
+            const compWillGive = compRounds * 30 * bonusMultiplier;
+            const wmWillGive = wmRounds * 15 * bonusMultiplier;
+            const arWillGive = arPoints * 1 * bonusMultiplier;
+            const casualWillGive = casualPoints * 4 * bonusMultiplier;
+            const dmWillGive = Math.ceil(dmPoints * 0.2 * bonusMultiplier);
+            
+            // Обновляем информацию о выдаваемом опыте
+            document.getElementById('compWillGive').textContent = ` (${compWillGive} XP`;
+            document.getElementById('wmWillGive').textContent = ` (${wmWillGive} XP)`;
+            document.getElementById('arWillGive').textContent = ` (${arWillGive} XP)`;
+            document.getElementById('casualWillGive').textContent = ` (${casualWillGive} XP)`;
+            document.getElementById('dmWillGive').textContent = ` (${dmWillGive} XP`;
+            
+            // Добавляем информацию о заданиях в новом формате
+            if (questModeComp) {
+                const totalXP = compWillGive + 1050;
+                document.getElementById('compWithQuest').textContent = ` + 1050 XP = ${totalXP} XP)`;
+            } else {
+                document.getElementById('compWithQuest').textContent = ')';
+            }
+            
+            if (questModeDM) {
+                const totalXP = dmWillGive + 800;
+                document.getElementById('dmWithQuest').textContent = ` + 800 XP = ${totalXP} XP)`;
+            } else {
+                document.getElementById('dmWithQuest').textContent = ')';
+            }
+            
+            // Скрываем все предупреждения
+            document.querySelectorAll('.warning').forEach(w => w.style.display = 'none');
+            
+            // Сбрасываем значения перед перерасчетом
+            document.getElementById('compRounds').textContent = compRounds;
+            document.getElementById('wmRounds').textContent = wmRounds;
+            document.getElementById('arPoints').textContent = arPoints;
+            document.getElementById('casualPoints').textContent = casualPoints;
+            document.getElementById('dmPoints').textContent = dmPoints;
+            
+            if (safeMode) {
+                // Правильно рассчитываем минимальный опыт с учетом множителя
+                const compMinXP = minValues.competitive * 30 * bonusMultiplier;
+                const wmMinXP = minValues.wingman * 15 * bonusMultiplier;
+                
+                document.getElementById('compMinXP').textContent = compMinXP;
+                document.getElementById('wmMinXP').textContent = wmMinXP;
+                
+                // Проверяем Competitive с учетом задания
+                if (compMinXP > compXPNeeded) {
+                    document.getElementById('compWarning').style.display = 'block';
+                    document.getElementById('compRounds').innerHTML = '<span class="danger">Невозможно</span>';
+                }
+                
+                // Проверяем Wingman
+                if (wmMinXP > baseXPNeeded) {
+                    document.getElementById('wmWarning').style.display = 'block';
+                    document.getElementById('wmRounds').innerHTML = '<span class="danger">Невозможно</span>';
+                }
+                
+                // Для остальных режимов проверяем, что минимальное действие не превысит лимит
+                const minArXP = 1 * bonusMultiplier;
+                if (minArXP > baseXPNeeded) {
+                    document.getElementById('arWarning').textContent = `Минимальное действие (1 очко) даст ${minArXP} XP!`;
+                    document.getElementById('arWarning').style.display = 'block';
+                    document.getElementById('arPoints').innerHTML = '<span class="danger">Невозможно</span>';
+                }
+                
+                const minCasualXP = 1 * 4 * bonusMultiplier;
+                if (minCasualXP > baseXPNeeded) {
+                    document.getElementById('casualWarning').textContent = `Минимальное действие (1 очко) даст ${minCasualXP} XP!`;
+                    document.getElementById('casualWarning').style.display = 'block';
+                    document.getElementById('casualPoints').innerHTML = '<span class="danger">Невозможно</span>';
+                }
+                
+                const minDMXP = 5 * 0.2 * bonusMultiplier;
+                if (minDMXP > dmXPNeeded) {
+                    document.getElementById('dmWarning').textContent = `Минимальное действие (5 очков) даст ${minDMXP} XP!`;
+                    document.getElementById('dmWarning').style.display = 'block';
+                    document.getElementById('dmPoints').innerHTML = '<span class="danger">Невозможно</span>';
+                }
+            }
+            
+            // Показываем результаты
+            document.getElementById('results').style.display = 'block';
+        }
+        
+        // Автофокус на поле ввода
+        document.getElementById('currentXP').focus();
+    </script>
+</body>
+</html>

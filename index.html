@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>huc · разгрузка рук после перерыва в CS2</title>
+    <title>huc · биоразминка перед игрой в CS2</title>
     <link rel="stylesheet" href="header.css">
     <style>
         * {
@@ -41,7 +41,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(77, 204, 189, 0.3);
             position: relative;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .container::before {
@@ -52,6 +52,7 @@
             right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, #4dccbd, transparent);
+            opacity: 0.8;
         }
 
         .page-title {
@@ -90,7 +91,7 @@
             border-left: 4px solid #4dccbd;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
@@ -135,6 +136,7 @@
             padding: 12px 14px;
             margin-bottom: 12px;
             border: 1px solid rgba(77, 204, 189, 0.15);
+            overflow: visible;
         }
 
         .block:last-of-type {
@@ -172,10 +174,59 @@
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%234dccbd" stroke-width="2"/><circle cx="12" cy="12" r="8"/></svg>') left center no-repeat;
             background-size: 12px;
             border-bottom: 1px solid rgba(77, 204, 189, 0.08);
+            position: relative;
+            overflow: visible;
         }
 
         .list li:last-child {
             border-bottom: none;
+        }
+
+        /* Пункты с тултипом */
+        .list li.with-tooltip {
+            cursor: help;
+            padding-right: 8px;
+        }
+
+        .list li.with-tooltip .li-text {
+            border-bottom: 1px dashed rgba(77, 204, 189, 0.4);
+        }
+
+        .tooltip-panel {
+            position: absolute;
+            z-index: 50;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 12px;
+            width: 260px;
+            max-width: 90vw;
+            padding: 10px 12px;
+            background: rgba(22, 33, 62, 0.98);
+            border: 1px solid #4dccbd;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            line-height: 1.45;
+            color: #e2e8f0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .list li.with-tooltip:hover .tooltip-panel {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Тултип слева от карточки, если не влезает справа */
+        .card:nth-child(even) .list li.with-tooltip .tooltip-panel {
+            left: auto;
+            right: 100%;
+            margin-left: 0;
+            margin-right: 12px;
         }
 
         .tip {
@@ -189,9 +240,6 @@
         .tip p {
             color: #cbd5e1;
             font-size: 0.9rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
         }
 
         .tip strong {
@@ -219,10 +267,6 @@
             color: #ffcc00;
             margin-bottom: 12px;
             border: 1px solid rgba(255, 204, 0, 0.3);
-        }
-
-        .quick br + br {
-            display: none;
         }
 
         .footer {
@@ -258,6 +302,21 @@
             text-align: center;
             font-size: 0.9rem;
         }
+
+        @media (max-width: 900px) {
+            .tooltip-panel {
+                left: 0;
+                right: auto;
+                margin-left: 0;
+                top: 100%;
+                transform: translateY(6px);
+                width: 100%;
+            }
+            .card:nth-child(even) .list li.with-tooltip .tooltip-panel {
+                right: auto;
+                margin-right: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -266,10 +325,11 @@
         <div class="container">
             <div class="page-title">
                 <h1>huc</h1>
-                <p class="sub">разгрузка рук после перерыва в CS2</p>
+                <p class="sub">биоразминка перед игрой в CS2</p>
             </div>
 
             <div class="mindmap">
+                <!-- Карточка 1: Разогрев кистей -->
                 <div class="card card-0">
                     <div class="card-header">
                         <span class="icon">🔥</span>
@@ -278,122 +338,107 @@
                     <div class="block">
                         <div class="block-title"><span>🤲</span> суставная гимнастика</div>
                         <ul class="list">
-                            <li>«мельница» — кисти в замок, круговые</li>
-                            <li>сжимание‑разжимание кулаков (30 раз)</li>
-                            <li>пальцы веером — плавная растяжка</li>
-                            <li>вращение в запястьях (2–3 минуты)</li>
+                            <li class="with-tooltip">
+                                <span class="li-text">«Мельница» — кисти в замок, круговые</span>
+                                <span class="tooltip-panel">Сцепи пальцы в замок перед грудью и делай медленные круговые движения кистями в одну и другую сторону. Разогревает запястья и мелкие суставы пальцев.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Сжимание‑разжимание кулаков (30 раз)</span>
+                                <span class="tooltip-panel">Ритмично сжимай кулаки и полностью разжимай пальцы веером. Улучшает кровоток в кистях и снимает скованность после простоя.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Пальцы веером — плавная растяжка</span>
+                                <span class="tooltip-panel">Разводи пальцы в стороны и мягко тяни каждый вверх/вниз. Не дави резко — только лёгкое натяжение. Готовит связки к нагрузке.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Вращение в запястьях (2–3 минуты)</span>
+                                <span class="tooltip-panel">Руки свободно или ладони на коленях — крути запястьями по и против часовой. Раскручивает сустав и снимает застой.</span>
+                            </li>
                         </ul>
                     </div>
                     <div class="block">
                         <div class="block-title"><span>💧</span> эластичность связок</div>
                         <ul class="list">
-                            <li>тыльное сгибание (аккуратно давим на пальцы)</li>
-                            <li>разминка каждого пальца отдельно</li>
-                            <li>лёгкий массаж ладоней</li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Тыльное сгибание (аккуратно давим на пальцы)</span>
+                                <span class="tooltip-panel">Второй рукой мягко отводи тыльную сторону пальцев к себе, растягивая запястье. Без боли — только лёгкое натяжение.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Разминка каждого пальца отдельно</span>
+                                <span class="tooltip-panel">По очереди сгибай и разгибай каждый палец, можно с лёгким нажимом у основания. Особенно полезно для безымянного и мизинца.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Лёгкий массаж ладоней</span>
+                                <span class="tooltip-panel">Большим пальцем другой руки пройдись по ладони и основанию пальцев — разгоняет кровь и снимает напряжение перед хватом мыши.</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
+                <!-- Карточка 2: Снять зажимы -->
                 <div class="card card-1">
                     <div class="card-header">
                         <span class="icon">⚡</span>
                         <h2>снять<br>зажимы</h2>
                     </div>
                     <div class="block">
-                        <div class="block-title"><span>🧘</span> плечевой пояс + шея</div>
+                        <div class="block-title"><span>🧘</span> плечевой пояс и шея</div>
                         <ul class="list">
-                            <li>круговые движения плечами назад (20 раз)</li>
-                            <li>подъём и «сброс» плеч (шраги)</li>
-                            <li>растяжка трицепса — рука за голову</li>
-                            <li>наклоны головы, снятие тонуса с трапеции</li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Круговые движения плечами назад (20 раз)</span>
+                                <span class="tooltip-panel">Поднимай плечи вверх, отводи назад и опускай — только назад, не вперёд. Снимает блок с трапеции и верхней части спины, который часто ломает плавность мыши.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Подъём и «сброс» плеч (шраги)</span>
+                                <span class="tooltip-panel">Резко подними плечи к ушам и полностью сбрось вниз. Повтори 10–15 раз. Снимает зажим с трапеции после долгого сидения.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Растяжка трицепса — рука за голову</span>
+                                <span class="tooltip-panel">Одну руку заведи за голову, второй рукой мягко тяни локоть вниз. Меняй руки. Расслабляет заднюю поверхность руки и плечо.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Наклоны головы, снятие тонуса с трапеции</span>
+                                <span class="tooltip-panel">Медленные наклоны головы влево-вправо и вперёд (без запрокидывания). Снимает зажим в шее, который переходит в плечо и руку.</span>
+                            </li>
                         </ul>
                     </div>
                     <div class="block">
                         <div class="block-title"><span>🌀</span> предплечья и локти</div>
                         <ul class="list">
-                            <li>разгибание/сгибание кисти с упором в стол</li>
-                            <li>вращение предплечий (супинация/пронация)</li>
-                            <li>потряхивание полностью расслабленных рук</li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Разгибание/сгибание кисти с упором в стол</span>
+                                <span class="tooltip-panel">Положи предплечье на стол, кисть свесь за край — сгибай и разгибай кисть вверх-вниз. Растягивает сгибатели и разгибатели предплечья.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Вращение предплечий (супинация/пронация)</span>
+                                <span class="tooltip-panel">Локти прижаты к бокам, предплечья горизонтально — поворачивай ладони вверх-вниз. Разминает предплечье и снимает зажим от мыши.</span>
+                            </li>
+                            <li class="with-tooltip">
+                                <span class="li-text">Потряхивание полностью расслабленных рук</span>
+                                <span class="tooltip-panel">Встань, опусти руки вдоль тела и потряси кистями и предплечьями, как стряхиваешь воду. Снимает остаточное напряжение перед посадкой за мышь.</span>
+                            </li>
                         </ul>
                     </div>
                     <div class="tip">
-                        <p>🧊 <strong>важно:</strong> часто зажим живёт в шее и спине — именно он ломает плавность мыши.</p>
-                    </div>
-                </div>
-
-                <div class="card card-2">
-                    <div class="card-header">
-                        <span class="icon">🖱️</span>
-                        <h2>мышь:<br>плавность</h2>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>🎯</span> треня на трекинг</div>
-                        <ul class="list">
-                            <li>медленное ведение по боту (или по стене)</li>
-                            <li>aimbot / упражнение «точка‑точка»</li>
-                            <li>круговые движения прицелом (smoothness)</li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>⚙️</span> настройка мыши</div>
-                        <ul class="list">
-                            <li>ковёр чистый? кабель не цепляет?</li>
-                            <li>sens / dpi — не завышены ли?</li>
-                            <li>отключи angle snapping в драйвере</li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>🧪</span> упражнения на smooth</div>
-                        <ul class="list">
-                            <li>вести прицел по шву текстуры (wall following)</li>
-                            <li>рефлекс «пауза → доводка»</li>
-                            <li>карты вроде <code>easy smoothness</code></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card card-3">
-                    <div class="card-header">
-                        <span class="icon">🧪</span>
-                        <h2>дриллы /<br>чувство</h2>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>🎚️</span> «сухая» тренировка</div>
-                        <ul class="list">
-                            <li>aim_botz — тег на скорости (только хед)</li>
-                            <li>10 минут deathmatch (только в голову)</li>
-                            <li>микрокоррекция — доводка после рывка</li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>🧽</span> анти‑рывки</div>
-                        <ul class="list">
-                            <li>диафрагмальное дыхание перед раундом</li>
-                            <li>«якорь» — фиксируем локоть на столе</li>
-                            <li>highmat — работаем спиной, а не кистью</li>
-                        </ul>
-                    </div>
-                    <div class="tip">
-                        <p>🔁 <strong>фидбек:</strong> рывки часто от перенапряжённого бицепса. сделай 10 медленных повторов по линии.</p>
+                        <p>🧊 <strong>Важно:</strong> часто зажим живёт в шее и спине — именно он ломает плавность мыши. Не пропускай блок про плечи и шею.</p>
                     </div>
                 </div>
             </div>
 
             <div class="quick">
                 <span class="label">⚡ быстрый старт 5 минут</span><br>
-                🔹 встань, покрути плечами назад 20 раз — сними блок<br>
-                🔹 положи ладонь на стол, пальцы веером — поднимай каждый по 10 раз (кровоток)<br>
-                🔹 зайди в любую карту, веди прицел по шву текстуры очень медленно, без рывков<br>
-                🔹 <strong>про мышь:</strong> переверни ковёр, проверь сглаживание в драйвере (angle snapping должно быть выкл)
+                🔹 Покрути плечами назад 20 раз — сними блок с трапеции<br>
+                🔹 Пальцы веером, сжимание-разжимание кулаков по 20–30 раз — кровоток в кистях<br>
+                🔹 Вращение запястий и потряхивание рук — и можно садиться за мышь
             </div>
 
             <div class="footer">
-                <div>🧠 huc — ручная разблокировка после простоя в CS2</div>
+                <div>🧠 huc — только биоразминка: разогрев кистей и снятие зажимов перед игрой</div>
                 <div class="gh">venogear/huc · MIT</div>
             </div>
         </div>
 
-        <p class="tagline">неделю не играл? руки дубовые? huc поможет снять зажимы и вернуть плавность.</p>
+        <p class="tagline">перерыв в игре? разомни руки и плечи — наведи на пункт, чтобы прочитать подробнее.</p>
     </div>
     <script src="load-header.js"></script>
 </body>

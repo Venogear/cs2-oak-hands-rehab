@@ -1,17 +1,27 @@
-/* Единый хеддер для index и calculator */
-/* Отступ body на обеих страницах 24px — хеддер тянется на всю ширину */
+/* Единый хеддер в стиле калькулятора / главной */
 .site-header {
-    background: #0d1117;
-    border-bottom: 1px solid #2b364b;
+    background: rgba(22, 33, 62, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(77, 204, 189, 0.3);
     padding: 14px 24px;
     margin: -24px -24px 24px -24px;
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+.site-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #4dccbd, transparent);
+    opacity: 0.8;
 }
 .site-header-inner {
-    max-width: 1300px;
+    max-width: 1500px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -21,12 +31,13 @@
 .site-logo {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #a8c0ff;
+    color: #4dccbd;
     text-decoration: none;
     letter-spacing: -0.5px;
+    text-shadow: 0 2px 4px rgba(77, 204, 189, 0.2);
 }
 .site-logo:hover {
-    color: #d6e5ff;
+    color: #6ee7de;
 }
 .site-nav {
     display: flex;
@@ -39,13 +50,16 @@
     text-decoration: none;
     font-weight: 500;
     font-size: 0.95rem;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    border: 1px solid transparent;
 }
 .site-nav .nav-link:hover {
-    color: #e2e8f0;
-    background: rgba(255, 255, 255, 0.06);
+    color: #e6e6e6;
+    background: rgba(77, 204, 189, 0.1);
+    border-color: rgba(77, 204, 189, 0.2);
 }
 .site-nav .nav-link.active {
     color: #ffcc00;
     background: rgba(255, 204, 0, 0.12);
+    border-color: rgba(255, 204, 0, 0.3);
 }

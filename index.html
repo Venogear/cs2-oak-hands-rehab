@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>huc · разминка и обзор перед игрой</title>
-    <link rel="stylesheet" href="header.css">
+    <title>huc · разминка для CS2 и LoL</title>
     <style>
         * {
             box-sizing: border-box;
@@ -35,10 +34,7 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 28px 36px;
-            box-shadow:
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(77, 204, 189, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(77, 204, 189, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(77, 204, 189, 0.3);
             position: relative;
             overflow: visible;
@@ -53,6 +49,50 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, #4dccbd, transparent);
             opacity: 0.8;
+        }
+
+        /* Табы */
+        .tab-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(77, 204, 189, 0.2);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: #4dccbd;
+            background: rgba(77, 204, 189, 0.05);
+            border-color: rgba(77, 204, 189, 0.2);
+        }
+
+        .tab-btn.active {
+            background: rgba(77, 204, 189, 0.12);
+            color: #4dccbd;
+            border-color: #4dccbd;
+            box-shadow: 0 0 12px rgba(77, 204, 189, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .mindmap {
@@ -78,16 +118,6 @@
             position: relative;
             overflow: visible;
             transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(77, 204, 189, 0.4), transparent);
         }
 
         .card:hover {
@@ -144,10 +174,6 @@
             font-size: 10px;
         }
 
-        .block-title span {
-            font-size: 1.1rem;
-        }
-
         .list {
             list-style: none;
         }
@@ -167,7 +193,6 @@
             border-bottom: none;
         }
 
-        /* Пункты-кнопки с подсказкой */
         .list li.with-tooltip {
             cursor: pointer;
             padding-right: 8px;
@@ -224,6 +249,12 @@
             line-height: 1.5;
         }
 
+        .tooltip-focus {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
         .tip {
             background: linear-gradient(135deg, rgba(77, 204, 189, 0.08), rgba(255, 204, 0, 0.03));
             border-radius: 12px;
@@ -255,6 +286,29 @@
             line-height: 1.7;
         }
 
+        .generator {
+            flex: 1 1 100%;
+            width: 100%;
+            margin-top: 16px;
+            padding: 16px 20px;
+            background: rgba(15, 52, 96, 0.35);
+            border-radius: 16px;
+            border: 1px solid rgba(77, 204, 189, 0.2);
+            border-left: 4px solid #4dccbd;
+            color: #e6e6e6;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .generator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
         .quick .label {
             display: inline-block;
             background: rgba(255, 204, 0, 0.15);
@@ -264,6 +318,44 @@
             color: #ffcc00;
             margin-bottom: 12px;
             border: 1px solid rgba(255, 204, 0, 0.3);
+        }
+
+        .generator .label {
+            display: inline-block;
+            background: rgba(77, 204, 189, 0.12);
+            padding: 6px 16px;
+            border-radius: 24px;
+            font-weight: 600;
+            color: #4dccbd;
+            border: 1px solid rgba(77, 204, 189, 0.3);
+        }
+
+        .generator button {
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(77, 204, 189, 0.5);
+            background: rgba(15, 52, 96, 0.8);
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        .generator button:hover {
+            background: rgba(77, 204, 189, 0.18);
+            border-color: rgba(77, 204, 189, 0.8);
+            box-shadow: 0 0 12px rgba(77, 204, 189, 0.25);
+        }
+
+        .generator button:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 6px rgba(77, 204, 189, 0.2);
+        }
+
+        .generator-body {
+            color: #cbd5e1;
+            font-size: 0.9rem;
         }
 
         .footer {
@@ -288,225 +380,445 @@
             border: 1px solid rgba(77, 204, 189, 0.2);
         }
 
-        .card-0 { border-left-color: #4dccbd; }
-        .card-1 { border-left-color: #ffaa5e; }
-        .card-2 { border-left-color: #bf9cff; }
-        .card-3 { border-left-color: #5fd68f; }
-
         .tagline {
             margin-top: 16px;
             color: #64748b;
             text-align: center;
             font-size: 0.9rem;
         }
-
-        @media (max-width: 900px) {
-            .tooltip-panel {
-                left: 0;
-                right: auto;
-                margin-left: 0;
-                top: 100%;
-                transform: translateY(6px);
-                width: 100%;
-            }
-            .card:nth-child(even) .list li.with-tooltip .tooltip-panel {
-                right: auto;
-                margin-right: 0;
-            }
-        }
     </style>
 </head>
 <body>
-    <div id="site-header-placeholder" data-current-page="index"></div>
     <div class="wrapper">
-            <div class="container">
-            <div class="mindmap">
-                <!-- Карточка 1: Разогрев кистей -->
-                <div class="card card-0">
-                    <div class="card-header">
-                        <span class="icon">🔥</span>
-                        <h2>разогрев<br>кистей</h2>
+        <div class="container">
+            <!-- Табы -->
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchGame('cs2')">🔫 CS2</button>
+                <button class="tab-btn" onclick="switchGame('lol')">🏆 League of Legends</button>
+            </div>
+
+            <!-- Контент для CS2 (оригинальный) -->
+            <div id="cs2-content" class="tab-content active">
+                <div class="mindmap">
+                    <!-- Карточка 1: Разогрев кистей -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon">🔥</span>
+                            <h2>разогрев<br>кистей</h2>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🤲</span> суставная гимнастика</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="рука легче идёт с места">
+                                    <span class="li-text">«Мельница» — кисти в замок, круговые</span>
+                                    <span class="tooltip-panel">Сцепи пальцы в замок перед грудью и делай медленные круговые движения кистями в одну и другую сторону. Разогревает запястья и мелкие суставы пальцев.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="руки не ощущаются «дубовыми»">
+                                    <span class="li-text">Сжимание‑разжимание кулаков (30 раз)</span>
+                                    <span class="tooltip-panel">Ритмично сжимай кулаки и полностью разжимай пальцы веером. Улучшает кровоток в кистях и снимает скованность после простоя.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="пальцы свободнее жмут кнопки">
+                                    <span class="li-text">Пальцы веером — плавная растяжка</span>
+                                    <span class="tooltip-panel">Разводи пальцы в стороны и мягко тяни каждый вверх/вниз. Не дави резко — только лёгкое натяжение. Готовит связки к нагрузке.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="меньше рывков в начале ведения">
+                                    <span class="li-text">Вращение в запястьях (2–3 минуты)</span>
+                                    <span class="tooltip-panel">Руки свободно или ладони на коленях — крути запястьями по и против часовой. Раскручивает сустав и снимает застой.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>💧</span> эластичность связок</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="меньше стянутости запястья при фликах">
+                                    <span class="li-text">Тыльное сгибание (аккуратно давим на пальцы)</span>
+                                    <span class="tooltip-panel">Второй рукой мягко отводи тыльную сторону пальцев к себе, растягивая запястье. Без боли — только лёгкое натяжение.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="точнее микродвижения при доводке">
+                                    <span class="li-text">Разминка каждого пальца отдельно</span>
+                                    <span class="tooltip-panel">По очереди сгибай и разгибай каждый палец, можно с лёгким нажимом у основания. Особенно полезно для безымянного и мизинца.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="хват мыши мягче и стабильнее">
+                                    <span class="li-text">Лёгкий массаж ладоней</span>
+                                    <span class="tooltip-panel">Большим пальцем другой руки пройдись по ладони и основанию пальцев — разгоняет кровь и снимает напряжение перед хватом мыши.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <p>💡 <strong>Совет:</strong> лёгкий дискомфорт при растяжке — норма, резкая боль — нет. Делай разминку кистей каждый раз перед длинной игровой сессией, а не только после больших перерывов.</p>
+                        </div>
                     </div>
-                    <div class="block">
-                        <div class="block-title"><span>🤲</span> суставная гимнастика</div>
-                        <ul class="list">
-                            <li class="with-tooltip">
-                                <span class="li-text">«Мельница» — кисти в замок, круговые</span>
-                                <span class="tooltip-panel">Сцепи пальцы в замок перед грудью и делай медленные круговые движения кистями в одну и другую сторону. Разогревает запястья и мелкие суставы пальцев.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Сжимание‑разжимание кулаков (30 раз)</span>
-                                <span class="tooltip-panel">Ритмично сжимай кулаки и полностью разжимай пальцы веером. Улучшает кровоток в кистях и снимает скованность после простоя.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Пальцы веером — плавная растяжка</span>
-                                <span class="tooltip-panel">Разводи пальцы в стороны и мягко тяни каждый вверх/вниз. Не дави резко — только лёгкое натяжение. Готовит связки к нагрузке.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Вращение в запястьях (2–3 минуты)</span>
-                                <span class="tooltip-panel">Руки свободно или ладони на коленях — крути запястьями по и против часовой. Раскручивает сустав и снимает застой.</span>
-                            </li>
-                        </ul>
+
+                    <!-- Карточка 2: Снять зажимы -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon">⚡</span>
+                            <h2>снять<br>зажимы</h2>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🧘</span> плечевой пояс и шея</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="меньше зажима плеч при пиксах">
+                                    <span class="li-text">Круговые движения плечами назад (20 раз)</span>
+                                    <span class="tooltip-panel">Поднимай плечи вверх, отводи назад и опускай — только назад, не вперёд. Снимает блок с трапеции и верхней части спины, который часто ломает плавность мыши.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="меньше тянет трапеция и спина">
+                                    <span class="li-text">Подъём и «сброс» плеч (шраги)</span>
+                                    <span class="tooltip-panel">Резко подними плечи к ушам и полностью сбрось вниз. Повтори 10–15 раз. Снимает зажим с трапеции после долгого сидения.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="проще держать локоть в одной точке">
+                                    <span class="li-text">Растяжка трицепса — рука за голову</span>
+                                    <span class="tooltip-panel">Одну руку заведи за голову, второй рукой мягко тяни локоть вниз. Меняй руки. Расслабляет заднюю поверхность руки и плечо.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="шея не зажимает движения руки">
+                                    <span class="li-text">Наклоны головы, снятие тонуса с трапеции</span>
+                                    <span class="tooltip-panel">Медленные наклоны головы влево-вправо и вперёд (без запрокидывания). Снимает зажим в шее, который переходит в плечо и руку.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🌀</span> предплечья и локти</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="меньше забиваются предплечья за игру">
+                                    <span class="li-text">Разгибание/сгибание кисти с упором в стол</span>
+                                    <span class="tooltip-panel">Положи предплечье на стол, кисть свесь за край — сгибай и разгибай кисть вверх-вниз. Растягивает сгибатели и разгибатели предплечья.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="проще крутить мышь корпусом и рукой">
+                                    <span class="li-text">Вращение предплечий (супинация/пронация)</span>
+                                    <span class="tooltip-panel">Локти прижаты к бокам, предплечья горизонтально — поворачивай ладони вверх-вниз. Разминает предплечье и снимает зажим от мыши.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="полностью отпускаешь лишнее напряжение">
+                                    <span class="li-text">Потряхивание полностью расслабленных рук</span>
+                                    <span class="tooltip-panel">Встань, опусти руки вдоль тела и потряси кистями и предплечьями, как стряхиваешь воду. Снимает остаточное напряжение перед посадкой за мышь.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <p>🧊 <strong>Важно:</strong> часто зажим живёт в шее и спине — именно он ломает плавность мыши. Не пропускай блок про плечи и шею.</p>
+                        </div>
                     </div>
-                    <div class="block">
-                        <div class="block-title"><span>💧</span> эластичность связок</div>
-                        <ul class="list">
-                            <li class="with-tooltip">
-                                <span class="li-text">Тыльное сгибание (аккуратно давим на пальцы)</span>
-                                <span class="tooltip-panel">Второй рукой мягко отводи тыльную сторону пальцев к себе, растягивая запястье. Без боли — только лёгкое натяжение.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Разминка каждого пальца отдельно</span>
-                                <span class="tooltip-panel">По очереди сгибай и разгибай каждый палец, можно с лёгким нажимом у основания. Особенно полезно для безымянного и мизинца.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Лёгкий массаж ладоней</span>
-                                <span class="tooltip-panel">Большим пальцем другой руки пройдись по ладони и основанию пальцев — разгоняет кровь и снимает напряжение перед хватом мыши.</span>
-                            </li>
-                        </ul>
+
+                    <!-- Карточка 3: Глаза и обзор -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon">👁️</span>
+                            <h2>глаза<br>и обзор</h2>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>👀</span> фокус и усталость</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="быстрее ловишь движение по краям экрана">
+                                    <span class="li-text">Мягкий фокус в центре экрана</span>
+                                    <span class="tooltip-panel">Смотри не в одну точку перекрестия, а чуть «расфокусированно» в центр экрана. Так периферия лучше ловит движение по краям и ты раньше замечаешь модель.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="меньше устают глаза во время катки">
+                                    <span class="li-text">Регулярно моргай и делай микро‑паузы</span>
+                                    <span class="tooltip-panel">Сухие глаза и напряжённый взгляд прилипают к одной точке. Каждые пару раундов отведи взгляд от монитора на несколько секунд и пару раз глубоко моргни.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🧭</span> осмотр открытого пространства</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="реже забываешь проверить опасный угол">
+                                    <span class="li-text">Разбей зону на 3–4 сектора</span>
+                                    <span class="tooltip-panel">Мысленно дели открытую площадь на понятные куски: ближний левый, центр, правый, верхние позиции. Так ты не пытаешься охватить всё сразу и не теряешь модель.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="взгляд сам идёт по понятному маршруту">
+                                    <span class="li-text">Сканируй сектора последовательно</span>
+                                    <span class="tooltip-panel">Когда выходишь, взгляд быстро пробегает по секторам в одном порядке (например: ближний угол → дальний → верх). Привычный маршрут ускоряет поиск противника.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="успеваешь увидеть модель до выстрела">
+                                    <span class="li-text">Взгляд чуть впереди прицела</span>
+                                    <span class="tooltip-panel">Пусть глаза идут чуть впереди движения прицела. Тогда ты видишь модель ещё до того, как прицел доезжает, а не только в момент, когда по тебе уже стреляют.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <p>👁️ <strong>Совет:</strong> главное — не «залипать» только на прицеле. Привычка сканировать углы и проверять открытую зону до пика даёт лишние доли секунды, когда модель появляется в поле зрения раньше, чем по тебе начинают стрелять.</p>
+                        </div>
+                    </div>
+
+                    <!-- Быстрый старт и генератор (CS2) -->
+                    <div class="quick">
+                        <span class="label">⚡ быстрый старт 5 минут</span><br>
+                        🔹 Покрути плечами назад 20 раз — сними блок с трапеции<br>
+                        🔹 Пальцы веером, сжимание-разжимание кулаков по 20–30 раз — кровоток в кистях<br>
+                        🔹 Вращение запястий и потряхивание рук — и можно садиться за мышь
+                    </div>
+
+                    <div class="generator">
+                        <div class="generator-header">
+                            <span class="label">🎲 Генератор заданий (CS2)</span>
+                            <button class="warmup-btn" data-game="cs2">Сгенерировать</button>
+                        </div>
+                        <div class="generator-body cs2-result">
+                            Нажми «Сгенерировать», чтобы получить небольшой набор упражнений примерно на одну минуту.
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Карточка 2: Снять зажимы -->
-                <div class="card card-1">
-                    <div class="card-header">
-                        <span class="icon">⚡</span>
-                        <h2>снять<br>зажимы</h2>
+            <!-- Контент для LoL (новый) -->
+            <div id="lol-content" class="tab-content">
+                <div class="mindmap">
+                    <!-- Карточка 1: Разогрев пальцев (LoL) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon">🖱️</span>
+                            <h2>пальцы<br>и клики</h2>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>👆</span> разминка перед кликами</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="быстрее жмёшь ability + мышь">
+                                    <span class="li-text">Перебирание пальцами по столу (как пианино)</span>
+                                    <span class="tooltip-panel">Поставь ладонь на стол и перебирай пальцами по порядку: указательный → средний → безымянный → мизинец и обратно. 20–30 повторов. Разгоняет кровь в пальцах для быстрых кликов.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="палец не соскальзывает с клавиш">
+                                    <span class="li-text">Сжимание мягкого мячика или эспандера</span>
+                                    <span class="tooltip-panel">Если есть мячик — сжимай его каждой рукой по 20 раз. Укрепляет хватку и убирает скованность после перерыва.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="чётче нажимаешь QWER в упорках">
+                                    <span class="li-text">Растяжка пальцев веером + потряхивание</span>
+                                    <span class="tooltip-panel">Разведи пальцы максимально широко, задержись на 5 секунд, расслабь и потряси кистью. Повтори 3–4 раза.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🖱️</span> клик-мышь</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="меньше лишних кликов в напряжённый момент">
+                                    <span class="li-text">Лёгкое постукивание пальцами по столу</span>
+                                    <span class="tooltip-panel">Просто стучи подушечками пальцев по столу, расслабляя кисть. Снимает зажим с пальцев перед игрой.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="быстрее реагируешь на спайки">
+                                    <span class="li-text">Чередование кликов разными пальцами</span>
+                                    <span class="tooltip-panel">На столе постучи: указательный-средний-безымянный в разном порядке. Тренирует независимость пальцев для быстрых реакций.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <p>💡 <strong>Совет:</strong> в LoL пальцы работают иначе, чем в CS2 — тут важнее скорость и точность отдельных кликов, а не плавное ведение. Разминай каждый палец отдельно.</p>
+                        </div>
                     </div>
-                    <div class="block">
-                        <div class="block-title"><span>🧘</span> плечевой пояс и шея</div>
-                        <ul class="list">
-                            <li class="with-tooltip">
-                                <span class="li-text">Круговые движения плечами назад (20 раз)</span>
-                                <span class="tooltip-panel">Поднимай плечи вверх, отводи назад и опускай — только назад, не вперёд. Снимает блок с трапеции и верхней части спины, который часто ломает плавность мыши.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Подъём и «сброс» плеч (шраги)</span>
-                                <span class="tooltip-panel">Резко подними плечи к ушам и полностью сбрось вниз. Повтори 10–15 раз. Снимает зажим с трапеции после долгого сидения.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Растяжка трицепса — рука за голову</span>
-                                <span class="tooltip-panel">Одну руку заведи за голову, второй рукой мягко тяни локоть вниз. Меняй руки. Расслабляет заднюю поверхность руки и плечо.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Наклоны головы, снятие тонуса с трапеции</span>
-                                <span class="tooltip-panel">Медленные наклоны головы влево-вправо и вперёд (без запрокидывания). Снимает зажим в шее, который переходит в плечо и руку.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>🌀</span> предплечья и локти</div>
-                        <ul class="list">
-                            <li class="with-tooltip">
-                                <span class="li-text">Разгибание/сгибание кисти с упором в стол</span>
-                                <span class="tooltip-panel">Положи предплечье на стол, кисть свесь за край — сгибай и разгибай кисть вверх-вниз. Растягивает сгибатели и разгибатели предплечья.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Вращение предплечий (супинация/пронация)</span>
-                                <span class="tooltip-panel">Локти прижаты к бокам, предплечья горизонтально — поворачивай ладони вверх-вниз. Разминает предплечье и снимает зажим от мыши.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Потряхивание полностью расслабленных рук</span>
-                                <span class="tooltip-panel">Встань, опусти руки вдоль тела и потряси кистями и предплечьями, как стряхиваешь воду. Снимает остаточное напряжение перед посадкой за мышь.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tip">
-                        <p>🧊 <strong>Важно:</strong> часто зажим живёт в шее и спине — именно он ломает плавность мыши. Не пропускай блок про плечи и шею.</p>
-                    </div>
-                </div>
 
-                <!-- Карточка 3: Глаза и обзор -->
-                <div class="card card-2">
-                    <div class="card-header">
-                        <span class="icon">👁️</span>
-                        <h2>глаза<br>и обзор</h2>
+                    <!-- Карточка 2: Осанка и спина (LoL) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon">🧘</span>
+                            <h2>осанка<br>и спина</h2>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>📏</span> за ноутбуком/пк</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="не затекает шея за 40 минут игры">
+                                    <span class="li-text">Проверь уровень монитора (верх на уровне глаз)</span>
+                                    <span class="tooltip-panel">Если монитор низко — шея внаклон. Подними или подложи что-то. В LoL играют дольше, чем в CS2, осанка решает.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="спина не гудит к 30 минуте">
+                                    <span class="li-text">Поясничный прогиб и опора на кресло</span>
+                                    <span class="tooltip-panel">Сядь глубоко в кресло, поясница касается спинки. Если висишь на тазу — спина затекает за 20 минут.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="руки меньше устают от упора">
+                                    <span class="li-text">Локти под 90°, не висят в воздухе</span>
+                                    <span class="tooltip-panel">Плечи расслаблены, локти на столе или подлокотниках. Висящие локти забирают ресурс плеч и шеи.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🌀</span> разгрузка спины между катками</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="снять застой после длительной игры">
+                                    <span class="li-text">Наклоны в стороны сидя или стоя</span>
+                                    <span class="tooltip-panel">Руки вдоль тела, плавно наклоняйся влево-вправо. Растягивает бока и поясницу после статики.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="вернуть подвижность пояснице">
+                                    <span class="li-text">Кошка-корова (если можешь встать)</span>
+                                    <span class="tooltip-panel">Встань на четвереньки или просто сядь ровно, округли спину — прогнись. Снимает зажим с поясницы после долгого сидения.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="ноги не затекают">
+                                    <span class="li-text">Пару раз привстать на носки и покрутить стопами</span>
+                                    <span class="tooltip-panel">Кровь застаивается в ногах — шевели стопами, приподнимайся на носки, пока ищешь игру.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <p>🧊 <strong>Важно:</strong> LoL-сессии дольше, чем CS2. Осанка и спина выходят на первый план. Разминай спину между играми, а не только в начале.</p>
+                        </div>
                     </div>
-                    <div class="block">
-                        <div class="block-title"><span>👀</span> фокус и усталость</div>
-                        <ul class="list">
-                            <li class="with-tooltip">
-                                <span class="li-text">Мягкий фокус в центре экрана</span>
-                                <span class="tooltip-panel">Смотри не в одну точку перекрестия, а чуть «расфокусированно» в центр экрана. Так периферия лучше ловит движение по краям и ты раньше замечаешь модель.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Регулярно моргай и делай микро‑паузы</span>
-                                <span class="tooltip-panel">Сухие глаза и напряжённый взгляд прилипают к одной точке. Каждые пару раундов отведи взгляд от монитора на несколько секунд и пару раз глубоко моргни.</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <div class="block-title"><span>🧭</span> осмотр открытого пространства</div>
-                        <ul class="list">
-                            <li class="with-tooltip">
-                                <span class="li-text">Разбей зону на 3–4 сектора</span>
-                                <span class="tooltip-panel">Мысленно дели открытую площадь на понятные куски: ближний левый, центр, правый, верхние позиции. Так ты не пытаешься охватить всё сразу и не теряешь модель.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Сканируй сектора последовательно</span>
-                                <span class="tooltip-panel">Когда выходишь, взгляд быстро пробегает по секторам в одном порядке (например: ближний угол → дальний → верх). Привычный маршрут ускоряет поиск противника.</span>
-                            </li>
-                            <li class="with-tooltip">
-                                <span class="li-text">Взгляд чуть впереди прицела</span>
-                                <span class="tooltip-panel">Пусть глаза идут чуть впереди движения прицела. Тогда ты видишь модель ещё до того, как прицел доезжает, а не только в момент, когда по тебе уже стреляют.</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="quick">
-                    <span class="label">⚡ быстрый старт 5 минут</span><br>
-                    🔹 Покрути плечами назад 20 раз — сними блок с трапеции<br>
-                    🔹 Пальцы веером, сжимание-разжимание кулаков по 20–30 раз — кровоток в кистях<br>
-                    🔹 Вращение запястий и потряхивание рук — и можно садиться за мышь
+                    <!-- Карточка 3: Глаза и миникарта (LoL) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="icon">👁️</span>
+                            <h2>глаза<br>и миникарта</h2>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>🗺️</span> взгляд на миникарту</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="чаще замечаешь врага на карте">
+                                    <span class="li-text">Сканируй миникарту после каждого крипа</span>
+                                    <span class="tooltip-panel">Привычка: после каждого последнего удара или убитого крипа бросай взгляд на миникарту на 0.5 сек. Тренируй её отдельно.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="не теряешься в замесе">
+                                    <span class="li-text">Фокус: центр экрана + края</span>
+                                    <span class="tooltip-panel">Держи фокус в центре, но периферией следи за краями экрана — там часто появляются ганки.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="быстрее реагируешь на врага из тьмы">
+                                    <span class="li-text">Периодически смотреть на затенённые зоны</span>
+                                    <span class="tooltip-panel">Не залипай только в линию — скользи взглядом по невидимым участкам, чтобы заранее заметить движение.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block">
+                            <div class="block-title"><span>👀</span> усталость глаз</div>
+                            <ul class="list">
+                                <li class="with-tooltip" data-focus="меньше сохнут глаза к концу игры">
+                                    <span class="li-text">Моргай чаще + упражнение «вдаль»</span>
+                                    <span class="tooltip-panel">В LoL глаза напряжены сильнее из-за постоянного мониторинга карты. Каждые 10 минут отводи взгляд от монитора вдаль на 10 секунд.</span>
+                                </li>
+                                <li class="with-tooltip" data-focus="легче различать цветные способности">
+                                    <span class="li-text">Разминка для глаз (вверх-вниз, влево-вправо)</span>
+                                    <span class="tooltip-panel">Поводи глазами, не поворачивая головы: вверх-вниз, влево-вправо, по кругу. Снимает спазм аккомодации.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tip">
+                            <p>👁️ <strong>Совет:</strong> в LoL важнее частота взглядов на миникарту, чем идеальная плавность. Тренируй периферию отдельно.</p>
+                        </div>
+                    </div>
+
+                    <!-- Быстрый старт и генератор (LoL) -->
+                    <div class="quick">
+                        <span class="label">⚡ быстрый старт 5 минут (LoL)</span><br>
+                        🔹 Перебирание пальцами по столу (пианино) 20 раз — разгоняем кровь в пальцах<br>
+                        🔹 Проверь посадку: поясница в кресле, локти на столе<br>
+                        🔹 Наклоны головы и пара наклонов в стороны — снять зажим с шеи<br>
+                        🔹 Взгляд на миникарту 10 раз подряд — тренируем привычку
+                    </div>
+
+                    <div class="generator">
+                        <div class="generator-header">
+                            <span class="label">🎲 Генератор заданий (LoL)</span>
+                            <button class="warmup-btn" data-game="lol">Сгенерировать</button>
+                        </div>
+                        <div class="generator-body lol-result">
+                            Нажми «Сгенерировать», чтобы получить небольшой набор упражнений примерно на одну минуту.
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="footer">
-                <div>🧠 huc — разминка рук, плеч и обзор перед игрой</div>
+                <div>🧠 huc — разминка для CS2 и LoL</div>
                 <div class="gh">venogear/huc · MIT</div>
             </div>
         </div>
 
-        <p class="tagline">перерыв в игре? разомни руки и плечи — наведи на пункт, чтобы прочитать подробнее.</p>
+        <p class="tagline">выбери игру — наводи на пункты, читай подробности.</p>
     </div>
-    <script src="load-header.js"></script>
-    <script>
-        (function () {
-            var items = document.querySelectorAll('.list li.with-tooltip');
 
-            items.forEach(function (li) {
-                var panel = li.querySelector('.tooltip-panel');
-                var titleEl = li.querySelector('.li-text');
+    <script>
+        // Переключение табов
+        function switchGame(game) {
+            // Переключаем классы у табов
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (game === 'cs2') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('cs2-content').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('lol-content').classList.add('active');
+            }
+        }
+
+        // Инициализация тултипов (универсальная для обоих табов)
+        function initTooltips(container) {
+            const items = container.querySelectorAll('.list li.with-tooltip');
+            
+            items.forEach(li => {
+                const panel = li.querySelector('.tooltip-panel');
+                const titleEl = li.querySelector('.li-text');
                 if (!panel || !titleEl) return;
 
-                var bodyText = panel.textContent;
-                var titleText = titleEl.textContent;
-                panel.innerHTML = '<div class="tooltip-title">' + titleText + '</div><div class="tooltip-body">' + bodyText + '</div>';
+                const bodyText = panel.textContent;
+                const titleText = titleEl.textContent;
+                const focusText = li.getAttribute('data-focus');
+                const focusHtml = focusText ? '<div class="tooltip-focus">Результат: ' + focusText + '</div>' : '';
+                
+                panel.innerHTML = '<div class="tooltip-title">' + titleText + '</div>' + focusHtml + '<div class="tooltip-body">' + bodyText + '</div>';
 
-                li.addEventListener('mouseenter', function () {
+                li.addEventListener('mouseenter', () => {
                     panel.style.opacity = '1';
                     panel.style.visibility = 'visible';
                 });
 
-                li.addEventListener('mouseleave', function () {
+                li.addEventListener('mouseleave', () => {
                     panel.style.opacity = '0';
                     panel.style.visibility = 'hidden';
                 });
 
-                li.addEventListener('mousemove', function (e) {
-                    var offset = 16;
+                li.addEventListener('mousemove', (e) => {
+                    const offset = 16;
                     panel.style.position = 'fixed';
                     panel.style.left = (e.clientX + offset) + 'px';
                     panel.style.top = (e.clientY + offset) + 'px';
                 });
 
-                li.addEventListener('click', function (e) {
+                li.addEventListener('click', (e) => {
                     e.preventDefault();
                     li.classList.toggle('selected');
                 });
             });
-        })();
+        }
+
+        // Инициализация после загрузки страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Инициализация тултипов для обоих табов
+            initTooltips(document.getElementById('cs2-content'));
+            initTooltips(document.getElementById('lol-content'));
+
+            // Генераторы заданий
+            const cs2Btn = document.querySelector('.warmup-btn[data-game="cs2"]');
+            const lolBtn = document.querySelector('.warmup-btn[data-game="lol"]');
+            const cs2Result = document.querySelector('.cs2-result');
+            const lolResult = document.querySelector('.lol-result');
+
+            const cs2Tasks = [
+                '60 сек: вращение запястий и лёгкое потряхивание рук стоя — фокус на расслаблении кистей и снижении зажима.',
+                '60 сек: круговые движения плечами назад + шраги (подъём и сброс плеч) — фокус на снятии зажима с трапеции и плечевого пояса.',
+                '60 сек: пальцы веером и мягкая растяжка каждого пальца по очереди — фокус на подвижности пальцев и подготовке к точным движениям мышью.',
+                '30 сек: сжимание-разжимание кулаков + 30 сек «мельница» кистями — фокус на разогреве кровотока и ощущении веса мыши в руке.',
+                '30 сек: мягкий фокус в центр экрана + 30 сек сканирования краёв монитора — фокус на обзоре и скорости первичного замечания цели.',
+                '30 сек: наклоны головы в стороны и вперёд без рывков + 30 сек потряхивания рук — фокус на разгрузке шеи/спины и снижении общей скованности.'
+            ];
+
+            const lolTasks = [
+                '60 сек: перебирание пальцами по столу как на пианино (все пальцы по очереди) — разогрев пальцев под быстрые клики QWER.',
+                '60 сек: проверь посадку — поясница прижата, локти на столе, + наклоны головы в стороны — снять зажим шеи.',
+                '60 сек: растяжка пальцев веером + потряхивание кистями — убрать скованность после перерыва.',
+                '30 сек: взгляд на миникарту 10 раз подряд (просто переводи взгляд) + 30 сек вращения глазами — тренировка привычки сканировать карту.',
+                '30 сек: сжимание-разжимание кулаков + 30 сек «кошка-корова» (прогибы спины сидя) — разгрузка спины и кистей.',
+                '60 сек: постучи пальцами по столу в хаотичном порядке — разгоняем кровь в пальцах перед активной игрой.'
+            ];
+
+            if (cs2Btn && cs2Result) {
+                cs2Btn.addEventListener('click', () => {
+                    const task = cs2Tasks[Math.floor(Math.random() * cs2Tasks.length)];
+                    cs2Result.innerHTML = 'Задание на 1 минуту:<br>🔹 ' + task;
+                });
+            }
+
+            if (lolBtn && lolResult) {
+                lolBtn.addEventListener('click', () => {
+                    const task = lolTasks[Math.floor(Math.random() * lolTasks.length)];
+                    lolResult.innerHTML = 'Задание на 1 минуту:<br>🔹 ' + task;
+                });
+            }
+        });
     </script>
 </body>
 </html>

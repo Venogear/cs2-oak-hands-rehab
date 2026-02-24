@@ -60,10 +60,14 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 24px;
+            width: fit-content;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .card {
-            flex: 1 1 360px;
+            flex: 0 1 360px;
             max-width: 480px;
             background: linear-gradient(135deg, rgba(15, 52, 96, 0.6), rgba(26, 58, 106, 0.4));
             border-radius: 16px;
@@ -238,6 +242,8 @@
         }
 
         .quick {
+            flex: 1 1 100%;
+            width: 100%;
             margin-top: 24px;
             padding: 18px 20px;
             background: rgba(15, 52, 96, 0.4);
@@ -447,13 +453,13 @@
                         </ul>
                     </div>
                 </div>
-            </div>
 
-            <div class="quick">
-                <span class="label">⚡ быстрый старт 5 минут</span><br>
-                🔹 Покрути плечами назад 20 раз — сними блок с трапеции<br>
-                🔹 Пальцы веером, сжимание-разжимание кулаков по 20–30 раз — кровоток в кистях<br>
-                🔹 Вращение запястий и потряхивание рук — и можно садиться за мышь
+                <div class="quick">
+                    <span class="label">⚡ быстрый старт 5 минут</span><br>
+                    🔹 Покрути плечами назад 20 раз — сними блок с трапеции<br>
+                    🔹 Пальцы веером, сжимание-разжимание кулаков по 20–30 раз — кровоток в кистях<br>
+                    🔹 Вращение запястий и потряхивание рук — и можно садиться за мышь
+                </div>
             </div>
 
             <div class="footer">

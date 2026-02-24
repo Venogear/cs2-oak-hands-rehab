@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>huc (руки, разгрузка, контроль) · разминка рук и плеч перед игрой</title>
+    <title>huc · разминка и обзор перед игрой</title>
     <link rel="stylesheet" href="header.css">
     <style>
         * {
@@ -55,44 +55,6 @@
             opacity: 0.8;
         }
 
-        .tooltip-window {
-            margin-bottom: 28px;
-            padding: 20px 24px;
-            min-height: 88px;
-            background: rgba(15, 52, 96, 0.4);
-            border-radius: 16px;
-            border: 1px solid rgba(77, 204, 189, 0.25);
-            border-left: 4px solid #4dccbd;
-        }
-
-        .tooltip-window-caption {
-            font-size: 0.85rem;
-            color: #4dccbd;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .tooltip-window-default {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .tooltip-window-content {
-            color: #e2e8f0;
-            font-size: 0.95rem;
-            line-height: 1.55;
-            display: none;
-        }
-
-        .tooltip-window.has-content .tooltip-window-default {
-            display: none;
-        }
-
-        .tooltip-window.has-content .tooltip-window-content {
-            display: block;
-        }
-
         .mindmap {
             display: flex;
             flex-wrap: wrap;
@@ -101,8 +63,8 @@
         }
 
         .card {
-            flex: 1 1 420px;
-            max-width: 560px;
+            flex: 1 1 360px;
+            max-width: 480px;
             background: linear-gradient(135deg, rgba(15, 52, 96, 0.6), rgba(26, 58, 106, 0.4));
             border-radius: 16px;
             padding: 18px 16px;
@@ -201,10 +163,27 @@
             border-bottom: none;
         }
 
-        /* Пункты с тултипом */
+        /* Пункты-кнопки с подсказкой */
         .list li.with-tooltip {
-            cursor: help;
+            cursor: pointer;
             padding-right: 8px;
+            border-radius: 8px;
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .list li.with-tooltip:hover {
+            background: rgba(77, 204, 189, 0.12);
+        }
+
+        .list li.with-tooltip.selected {
+            background: rgba(255, 204, 0, 0.12);
+            box-shadow: inset 3px 0 0 #ffcc00;
+        }
+
+        .list li.with-tooltip.selected .li-text::after {
+            content: ' ✓';
+            color: #ffcc00;
+            font-weight: 600;
         }
 
         .list li.with-tooltip .li-text {
@@ -212,40 +191,33 @@
         }
 
         .tooltip-panel {
-            position: absolute;
+            position: fixed;
             z-index: 50;
-            left: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-left: 12px;
             width: 260px;
             max-width: 90vw;
             padding: 10px 12px;
             background: rgba(22, 33, 62, 0.98);
             border: 1px solid #4dccbd;
             border-radius: 10px;
-            font-size: 0.8rem;
-            line-height: 1.45;
             color: #e2e8f0;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.2s, visibility 0.2s;
+            transition: opacity 0.15s ease, visibility 0.15s ease;
             pointer-events: none;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
         }
 
-        /* Тултип выводится в центральное окно, не сбоку */
-        .list li.with-tooltip .tooltip-panel {
-            display: none;
+        .tooltip-title {
+            font-weight: 600;
+            color: #4dccbd;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
         }
 
-        /* Тултип слева от карточки, если не влезает справа */
-        .card:nth-child(even) .list li.with-tooltip .tooltip-panel {
-            left: auto;
-            right: 100%;
-            margin-left: 0;
-            margin-right: 12px;
+        .tooltip-body {
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
 
         .tip {
@@ -341,13 +313,7 @@
 <body>
     <div id="site-header-placeholder" data-current-page="index"></div>
     <div class="wrapper">
-        <div class="container">
-            <div class="tooltip-window" id="tooltipWindow">
-                <div class="tooltip-window-caption">huc — руки, разгрузка, контроль</div>
-                <div class="tooltip-window-default" id="tooltipDefault">Наведи на любой пункт в карточках — здесь появится подсказка.</div>
-                <div class="tooltip-window-content" id="tooltipOutput"></div>
-            </div>
-
+            <div class="container">
             <div class="mindmap">
                 <!-- Карточка 1: Разогрев кистей -->
                 <div class="card card-0">
@@ -491,7 +457,7 @@
             </div>
 
             <div class="footer">
-                <div>🧠 huc (руки, разгрузка, контроль) — разогрев кистей и снятие зажимов перед игрой</div>
+                <div>🧠 huc — разминка рук, плеч и обзор перед игрой</div>
                 <div class="gh">venogear/huc · MIT</div>
             </div>
         </div>
@@ -501,23 +467,37 @@
     <script src="load-header.js"></script>
     <script>
         (function () {
-            var windowEl = document.getElementById('tooltipWindow');
-            var defaultEl = document.getElementById('tooltipDefault');
-            var outputEl = document.getElementById('tooltipOutput');
             var items = document.querySelectorAll('.list li.with-tooltip');
 
             items.forEach(function (li) {
                 var panel = li.querySelector('.tooltip-panel');
-                if (!panel) return;
+                var titleEl = li.querySelector('.li-text');
+                if (!panel || !titleEl) return;
+
+                var bodyText = panel.textContent;
+                var titleText = titleEl.textContent;
+                panel.innerHTML = '<div class="tooltip-title">' + titleText + '</div><div class="tooltip-body">' + bodyText + '</div>';
 
                 li.addEventListener('mouseenter', function () {
-                    outputEl.textContent = panel.textContent;
-                    windowEl.classList.add('has-content');
+                    panel.style.opacity = '1';
+                    panel.style.visibility = 'visible';
                 });
 
                 li.addEventListener('mouseleave', function () {
-                    outputEl.textContent = '';
-                    windowEl.classList.remove('has-content');
+                    panel.style.opacity = '0';
+                    panel.style.visibility = 'hidden';
+                });
+
+                li.addEventListener('mousemove', function (e) {
+                    var offset = 16;
+                    panel.style.position = 'fixed';
+                    panel.style.left = (e.clientX + offset) + 'px';
+                    panel.style.top = (e.clientY + offset) + 'px';
+                });
+
+                li.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    li.classList.toggle('selected');
                 });
             });
         })();

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>huc · разминка для CS2 и LoL</title>
+    <title>huc · разминка для CS2</title>
     <style>
         * {
             box-sizing: border-box;
@@ -51,50 +51,7 @@
             opacity: 0.8;
         }
 
-        /* Табы */
-        .tab-bar {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid rgba(77, 204, 189, 0.2);
-            padding-bottom: 12px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.2rem;
-            font-weight: 600;
-            padding: 10px 24px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .tab-btn:hover {
-            color: #4dccbd;
-            background: rgba(77, 204, 189, 0.05);
-            border-color: rgba(77, 204, 189, 0.2);
-        }
-
-        .tab-btn.active {
-            background: rgba(77, 204, 189, 0.12);
-            color: #4dccbd;
-            border-color: #4dccbd;
-            box-shadow: 0 0 12px rgba(77, 204, 189, 0.2);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
+        /* Контент */
         .mindmap {
             display: flex;
             flex-wrap: wrap;
@@ -390,16 +347,8 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="container">
-            <!-- Табы -->
-            <div class="tab-bar">
-                <button class="tab-btn active" onclick="switchGame('cs2')">🔫 CS2</button>
-                <button class="tab-btn" onclick="switchGame('lol')">🏆 League of Legends</button>
-            </div>
-
-            <!-- Контент для CS2 (оригинальный) -->
-            <div id="cs2-content" class="tab-content active">
-                <div class="mindmap">
+            <div class="container">
+            <div class="mindmap">
                     <!-- Карточка 1: Разогрев кистей -->
                     <div class="card">
                         <div class="card-header">
